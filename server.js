@@ -6,8 +6,17 @@ import cors from "cors";
 const app = express();
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Socket server is running");
+});
+
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 let waitingUser = null;
 
@@ -19,10 +28,8 @@ io.on("connection", (socket) => {
       const room = `room_${waitingUser.id}_${socket.id}`;
       socket.join(room);
       waitingUser.join(room);
-
       io.to(room).emit("partner_found", { room });
       console.log(`Paired: ${waitingUser.id} & ${socket.id}`);
-
       waitingUser = null;
     } else {
       waitingUser = socket;
@@ -42,4 +49,6 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 8000;
-server.listen(PORT, () => console.log(`✅ Server running on ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
