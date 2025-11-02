@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import "./chat.css";
 
-const socket = io("http://localhost:8000");
+const socket = io("https://dun-chat.onrender.com");
 
 export default function Chat() {
   const [room, setRoom] = useState("");
