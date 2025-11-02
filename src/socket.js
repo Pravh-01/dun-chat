@@ -3,6 +3,6 @@ import { io } from "socket.io-client";
 //   transports: ["websocket"],
 // });
 
-const socket = io("http://localhost:10000");
+const socket = io("http://localhost:8000");
 
 export default socket;
